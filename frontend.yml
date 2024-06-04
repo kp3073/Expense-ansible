@@ -1,8 +1,7 @@
 - name: Frontend setup
   become: yes
   tasks:
-  
-- name: Installing Nginx
+- name: installing
   ansible.builtin.dnf:
     name: nginx
     state: present
