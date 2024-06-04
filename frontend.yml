@@ -1,21 +1,21 @@
-- name: frontend setup
+- name: Frontend setup
   become: yes
   tasks:
-    - name: Installing Nginx
-        ansible.builtin.dnf:
-            - name: nginx
-              state: installed
-    
-    - name: Copy config file
-        ansible.builtin.copy:
-              src: expense.conf
-              dest: /etc/nginx/default.d/expense.conf
+  
+- name: Installing Nginx
+  ansible.builtin.dnf:
+    name: nginx
+    state: present
 
-    - 
+- name: Copy Nginx Config File
+  ansible.builtin.template:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
 
-    - name: Clean old nginx Content
-        ansible.builtin.file:
-              path: /usr/share/nginx/html
+- name: Copy Expense Config File
+  ansible.builtin.template:
+    src: expense.conf
+    dest: /etc/nginx/default.d/expense.conf
 
 
     
