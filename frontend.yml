@@ -21,26 +21,10 @@
       ansible.builtin.get_url:
         url: https://expense-artifacts.s3.amazonaws.com/frontend.zip
         dest: /tmp/frontend.zip
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
 #     source common.sh
 
 # echo -e "${color} Installing Nginx \e[0m"
 # dnf install nginx -y &>>$log_file
-
 
 # echo -e "${color} Copy Expense Config file \e[0m"
 # cp expense.conf /etc/nginx/default.d/expense.conf &>>$log_file
