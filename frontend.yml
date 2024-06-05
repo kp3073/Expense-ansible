@@ -1,33 +1,38 @@
-- name: Frontend setup
-  hosts: all
-  become: yes
-  tasks:
-    - name: installing
-      ansible.builtin.dnf:
-        name: nginx
-        state: present
+  - name: Frontend setup
+    hosts: all
+    become: yes
+    tasks:
+      - name: installing
+        ansible.builtin.dnf:
+          name: nginx
+          state: present
 
-    - name: Copy config file
-      ansible.builtin.copy:
-        src: expense.conf
-        dest: /etc/nginx/default.d/expense.conf
+      - name: Copy config file
+        ansible.builtin.copy:
+          src: expense.conf
+          dest: /etc/nginx/default.d/expense.conf
 
-    - name: Removing old nginx Content
-      ansible.builtin.file:
-        path: /usr/share/nginx/html
-        state: absent
+      - name: Removing old nginx Content
+        ansible.builtin.file:
+          path: /usr/share/nginx/html
+          state: absent
 
-    - name: Download and Extract the file 
-      ansible.builtin.unarchive:
-        src: https://expense-artifacts.s3.amazonaws.com/frontend.zip
-        dest: /usr/share/nginx/html
-        remote_src: yes
-     
-    - name: Restart the Nginx service
-      ansible.builtin.systemd:
-        name: nginx
-        state: restarted
-        enabled: yes
+      - name: Creating Nginx Directory
+        ansible.builtin.file:
+          path: /usr/share/nginx/html
+          state: directory
+
+      - name: Download and Extract the file 
+        ansible.builtin.unarchive:
+          src: https://expense-artifacts.s3.amazonaws.com/frontend.zip
+          dest: /usr/share/nginx/html
+          remote_src: yes
+      
+      - name: Restart the Nginx service
+        ansible.builtin.systemd:
+          name: nginx
+          state: restarted
+          enabled: yes
 
 
 
