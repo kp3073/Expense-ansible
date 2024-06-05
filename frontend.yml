@@ -7,6 +7,11 @@
         name: nginx
         state: present
 
+    - name: Copy config file
+      ansible.builtin.copy:
+        src: expense.conf
+        dest: /etc/nginx/default.d/expense.conf
+
     - name: Removing old nginx Content
       ansible.builtin.file:
         path: /usr/share/nginx/html
