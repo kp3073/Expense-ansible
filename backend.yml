@@ -33,7 +33,7 @@
           remote_src: yes
 
       - name: Npm install
-        ansible.builtin.shell:
+        ansible.builtin.shell: npm install newrelic --save
           args:
             chdir: /app
 
