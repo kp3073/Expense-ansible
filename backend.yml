@@ -36,10 +36,7 @@
         #   ansible.builtin.shell: npm install newrelic --save
         #     argv:
         #       chdir: /app
-        - name: install new relic
-          community.general.npm:
-            name: npm
-              path: /app
+
         - name: install mysql
           ansible.builtin.dnf:
             name: mysql
