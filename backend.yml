@@ -35,7 +35,7 @@
 
       - name: Npm install
         ansible.builtin.shell: npm install
-          args: 
+          args:
             chdir: /app
 
       - name: install mysql
