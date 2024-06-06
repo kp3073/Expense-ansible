@@ -34,7 +34,7 @@
 
       - name: Install New Relic NodeJS Library
         ansible.builtin.shell: npm install newrelic --save
-          args:
+          argv:
             chdir: /app
 
       - name: install mysql
