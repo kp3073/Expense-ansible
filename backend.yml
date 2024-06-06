@@ -1,54 +1,54 @@
-  - name: Backend
-    hosts: all
-    become: yes
-    tasks:
-      - name: Disable old NodJs
-        ansible.builtin.shell: dnf module disable nodejs -y
+    - name: Backend
+      hosts: all
+      become: yes
+      tasks:
+        - name: Disable old NodJs
+          ansible.builtin.shell: dnf module disable nodejs -y
 
-      - name: Enable Nodjs 18
-        ansible.builtin.shell: dnf module enable nodejs:18 -y
+        - name: Enable Nodjs 18
+          ansible.builtin.shell: dnf module enable nodejs:18 -y
 
-      - name: install Nodjs
-        ansible.builtin.dnf:
-          name: nodejs
-      - name: Copy Backend service file
-        ansible.builtin.copy:
-          src: backend.service
-          dest: /etc/systemd/system/backend.service
-      - name: Add application User 
-        ansible.builtin.user:
-          name: expense
-      - name: Cleanup old Content
-        ansible.builtin.file:
-          path: /app
-          state: absent
-      - name: create app directory
-        ansible.builtin.file:
-          path: /app
-          state: directory
-      - name: Download and extract backend file
-        ansible.builtin.unarchive:
-          src: https://expense-artifacts.s3.amazonaws.com/backend.zip
-          dest: /app
-          remote_src: yes
-
-      # - name: Install New Relic NodeJS Library
-      #   ansible.builtin.shell: npm install newrelic --save
-      #     argv:
-      #       chdir: /app
-      - name: install new relic
-        community.general.npm:
-          name: npm
+        - name: install Nodjs
+          ansible.builtin.dnf:
+            name: nodejs
+        - name: Copy Backend service file
+          ansible.builtin.copy:
+            src: backend.service
+            dest: /etc/systemd/system/backend.service
+        - name: Add application User 
+          ansible.builtin.user:
+            name: expense
+        - name: Cleanup old Content
+          ansible.builtin.file:
             path: /app
-      - name: install mysql
-        ansible.builtin.dnf:
-          name: mysql
-      - name: Load schema 
-        ansible.builtin.shell: mysql -h 172.31.92.12 -uroot -pExpenseApp@1 < /app/schema/backend.sql
-      - name: start backend service
-        ansible.builtin.systemd:
-          name: backend
-          state: restarted
-          enabled: true
-          daemon-reload: yes
-        
+            state: absent
+        - name: create app directory
+          ansible.builtin.file:
+            path: /app
+            state: directory
+        - name: Download and extract backend file
+          ansible.builtin.unarchive:
+            src: https://expense-artifacts.s3.amazonaws.com/backend.zip
+            dest: /app
+            remote_src: yes
+
+        # - name: Install New Relic NodeJS Library
+        #   ansible.builtin.shell: npm install newrelic --save
+        #     argv:
+        #       chdir: /app
+        - name: install new relic
+          community.general.npm:
+            name: npm
+              path: /app
+        - name: install mysql
+          ansible.builtin.dnf:
+            name: mysql
+        - name: Load schema 
+          ansible.builtin.shell: mysql -h 172.31.92.12 -uroot -pExpenseApp@1 < /app/schema/backend.sql
+        - name: start backend service
+          ansible.builtin.systemd:
+            name: backend
+            state: restarted
+            enabled: true
+            daemon-reload: yes
+          
