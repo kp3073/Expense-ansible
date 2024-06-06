@@ -10,8 +10,7 @@
 
       - name: install Nodjs
         ansible.builtin.dnf:
-          name: nodjs
-          state: present 
+          name: nodejs
       - name: Copy Backend service file
         ansible.builtin.copy:
           src: backend.service
