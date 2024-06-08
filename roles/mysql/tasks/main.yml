@@ -1,13 +1,9 @@
-- name: My Sql setup
-  hosts: all
-  become: yes
-  tasks:
     - name: Copy mysql repo
       ansible.builtin.copy:
         src: mysql.repo
         dest: /etc/yum.repos.d/mysql.repo
     - name: Disable mysql version 8
-      ansible.builtin.shell: dnf module disable mysql -y 
+      ansible.builtin.shell: dnf module disable mysql -y
     - name: install my sql
       ansible.builtin.dnf:
         name: mysql-community-server
