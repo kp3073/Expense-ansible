@@ -1,3 +1,11 @@
+        - name: varify NodeJS
+          ansible.builtin.shell: type npm
+          register: npm
+
+        - name: Read npm installed
+          ansible.builtin.debug:
+            msg: "{{ npm }}"
+
         - name: nodejs:1
           ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
 
