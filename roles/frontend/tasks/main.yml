@@ -1,5 +1,4 @@
-      - name: sethost name
-        ansible.builtin.shell: sudo set-hostname frontend
+
 
       - name: installing
         ansible.builtin.dnf:
