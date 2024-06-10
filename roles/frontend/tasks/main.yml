@@ -1,3 +1,6 @@
+      - name: sethost name:
+        ansible.builtin.shell: set-hostname frontend
+
       - name: installing
         ansible.builtin.dnf:
           name: nginx
@@ -7,6 +10,11 @@
         ansible.builtin.template:
           src: expense.conf
           dest: /etc/nginx/default.d/expense.conf
+
+      - name: Changing Nginx Log
+        ansible.builtin.template:
+          src: nginx.conf
+          dest: /etc/nginx/nginx.conf
 
       - name: Removing old nginx Content
         ansible.builtin.file:
