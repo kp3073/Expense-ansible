@@ -3,7 +3,7 @@ Description = Backend Service
 
 [Service]
 User=expense
-Environment=DB_HOST="172.31.92.12"
+Environment=DB_HOST="{{ lookup('amazon.aws.aws_ssm', 'expense.frontend.my_db', region='us-east-1' ) }}"
 ExecStart=/bin/node /app/index.js
 SyslogIdentifier=backend
 
