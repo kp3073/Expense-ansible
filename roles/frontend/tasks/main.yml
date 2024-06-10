@@ -1,4 +1,4 @@
-      - name: sethost name:
+      - name: sethost name
         ansible.builtin.shell: sudo set-hostname frontend
 
       - name: installing
