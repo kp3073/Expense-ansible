@@ -1,0 +1,21 @@
+- name: Copy YUM elastic repo
+  ansible.builtin.template:
+    - src: elastic.repo
+      dest: /etc/yum.repo.d/elastic.repo
+
+- name: install Filebeat
+  ansible.builtin.dnf:
+    - name: Filebeat
+      state: installed
+      enabled: yes
+
+- name: Copy Filebeat conf file
+  ansible.builtin.template:
+    src: filebeat.yml
+    dest: /etc/filebeat/filebeat/yml
+
+- name: Start filebeat service
+  ansible.builtin.systemd:
+    - name: filebeat
+      state: restarted
+      enabled: yes
