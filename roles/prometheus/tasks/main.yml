@@ -1,7 +1,7 @@
 - name: Copy Prometheus file
   ansible.builtin.template:
     src: prometheus.yml
-    dest: /etc/prometheus/prometheus.yml
+    dest: /opt/prometheus/prometheus.yml
 
 - name: Restart Prometheus
   ansible.builtin.systemd:
