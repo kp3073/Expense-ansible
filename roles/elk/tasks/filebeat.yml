@@ -5,7 +5,7 @@
 
 - name: install Filebeat
   ansible.builtin.dnf:
-    - name: Filebeat
+      name: Filebeat
       state: installed
       enabled: yes
 
@@ -16,6 +16,6 @@
 
 - name: Start filebeat service
   ansible.builtin.systemd:
-    - name: filebeat
+      name: filebeat
       state: restarted
       enabled: yes
