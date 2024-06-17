@@ -3,11 +3,10 @@
     src: elastic.repo
     dest: /etc/yum.repos.d/elastic.repo
 
-- name: install Filebeat
+- name: Install Filebeat
   ansible.builtin.dnf:
     name: filebeat
     state: installed
-    enabled: yes
 
 - name: Copy Filebeat conf file
   ansible.builtin.template:
