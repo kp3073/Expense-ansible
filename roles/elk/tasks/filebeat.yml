@@ -5,7 +5,7 @@
 
 - name: install Filebeat
   ansible.builtin.dnf:
-    name: Filebeat
+    name: filebeat
     state: installed
     enabled: yes
 
