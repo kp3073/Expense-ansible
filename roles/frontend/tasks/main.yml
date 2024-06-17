@@ -36,6 +36,7 @@
           name: nginx
           state: restarted
           enabled: yes
+
       - name: Install Filebeat
         ansible.builtin.import_role:
           name: elk

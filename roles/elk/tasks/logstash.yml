@@ -1,10 +1,9 @@
-- name: logstash confg file
+- name: COpy Filebeat Configuration
   ansible.builtin.template:
-      src: logstash.conf
-      dest: /etc/logstash/conf.d/logstash.conf
+    src: logstash.conf
+    dest: /etc/logstash/conf.d/logstash.conf
 
-- name: logstash service restart
-  ansible.builtin.systemd:
-      - name: logstash
-        state: restarted
-        enabled: yes
+- name: Restart Logstash
+  ansible.builtin.systemd_service:
+    name: logstash
+    state: restarted
