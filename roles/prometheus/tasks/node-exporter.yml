@@ -1,7 +1,7 @@
 - name: Download Node Exporter
   ansible.builtin.unarchive:
     src: "https://github.com/prometheus/node_exporter/releases/download/v1.8.1/node_exporter-1.8.1.linux-amd64.tar.gz"
-    dest: "/opt/node_exporter-1.8.1.linux-amd64"
+    dest: "/opt/
     remote_src: yes
 
 - name: copy service file
