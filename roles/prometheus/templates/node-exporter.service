@@ -3,7 +3,7 @@ Description = Node Exporter
 
 [Service]
 
-ExecStart=/opt/node_exporter-1.8.1.linux-amd64/node-exporter
+ExecStart=/opt/node_exporter-1.8.1.linux-amd64/node_exporter
 SyslogIdentifier=node-exporter
 
 [Install]
