@@ -1,0 +1,10 @@
+[Unit]
+Description = Node Exporter
+
+[Service]
+
+ExecStart=/bin/node /app/index.js
+SyslogIdentifier=backend
+
+[Install]
+WantedBy=multi-user.target
