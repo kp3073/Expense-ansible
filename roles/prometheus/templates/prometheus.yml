@@ -18,23 +18,13 @@ rule_files:
 
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
+
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: "prometheus"
-
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-
     static_configs:
       - targets: ["localhost:9090"]
-
-  - job_name: "expense"
-    ec2_sd_configs:
-    - region: us-east-1
-      port: 91001
-      filters:
-        - name: "tag:project"
-          values: ["expense"]
+  - job_name: ec2-nodes
     relabel_configs:
       - source_labels: [__meta_ec2_instance_id]
         target_label: instance_id
@@ -42,3 +32,9 @@ scrape_configs:
         target_label: private_ip
       - source_labels: [__meta_ec2_tag_Name]
         target_label: name
+    ec2_sd_configs:
+      - region: us-east-1
+        port: 9100
+        filters:
+          - name: "tag:project"
+            values: ["expense"]
