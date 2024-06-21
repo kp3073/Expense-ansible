@@ -34,7 +34,7 @@ scrape_configs:
       port: 91001
       filters:
         - name: "tag:project"
-          value: ["expense"]
+          values: ["expense"]
     relabel_configs:
       - source_labels: [__meta_ec2_instance_id]
         target_label: instance_id
