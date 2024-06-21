@@ -55,3 +55,7 @@
             state: restarted
             enabled: true
             daemon-reload: yes
+        - name: Install Node Exporter
+          ansible.builtin.import_role:
+            name: prometheus
+            tasks_from: node-exporter
