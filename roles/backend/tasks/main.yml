@@ -47,7 +47,7 @@
             name: mysql
 
         - name: Load schema
-          ansible.builtin.shell: mysql -h {{ lookup('amazon.aws.aws_ssm', '{{env}}.rds.endpoint', region='us-east-1' ) }} -u{{ lookup('amazon.aws.aws_ssm', '{{env}}.rds.master_username', region='us-east-1' ) }} -p{{ lookup('amazon.aws.aws_ssm', '{{env}}.rds.master_password', region='us-east-1' ) }} < /app/schema/backend.sql
+          ansible.builtin.shell: mysql -h {{ lookup('amazon.aws.aws_ssm', '{{env}}.rds.endpoint', region='us-east-1' ) }} -uroot -p{{ lookup('amazon.aws.aws_ssm', '{{env}}.rds.password', region='us-east-1' ) }} < /app/schema/backend.sql
 
         - name: start backend service
           ansible.builtin.systemd:
