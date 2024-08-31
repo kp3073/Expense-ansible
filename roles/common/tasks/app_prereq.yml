@@ -2,6 +2,7 @@
   ansible.builtin.file:
     path: "{{ app_loc }}"
     state: absent
+
 - name: create app directory
   ansible.builtin.file:
     path: "{{ app_loc }}"
