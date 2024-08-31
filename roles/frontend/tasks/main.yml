@@ -28,11 +28,11 @@
     path: /usr/share/nginx/html
     state: directory
 
-- name: Download and Extract the file
-  ansible.builtin.unarchive:
-    src: https://expense-artifacts.s3.amazonaws.com/frontend.zip
-    dest: /usr/share/nginx/html
-    remote_src: yes
+#- name: Download and Extract the file
+#  ansible.builtin.unarchive:
+#    src: https://expense-artifacts.s3.amazonaws.com/frontend.zip
+#    dest: /usr/share/nginx/html
+#    remote_src: yes
 
 - name: Restart the Nginx service
   ansible.builtin.systemd:
