@@ -8,6 +8,12 @@
     path: "{{ app_loc }}"
     state: directory
 
+#- name: Download backend Code and Extract it
+#  ansible.builtin.unarchive:
+#    src: https://expense-artifacts.s3.amazonaws.com/{{ component }}.zip
+#    dest: "{{ app_loc }}"
+#    remote_src: yes
+
 - name: download backend code and extract
   ansible.builtin.unarchive:
     src: http://admin:Canada1991$@artifactory.aligntune.online:8081/artifactory/{{ component }}/{{ component }}-{{ lookup('aws_ssm', '{{env}}.{{component}}.endpoint', region='us-east-1' ) }}.zip
