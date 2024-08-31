@@ -1,0 +1,14 @@
+- name: Cleanup Old contents
+  ansible.builtin.file:
+    path: "{{ app_loc }}"
+    state: absent
+- name: create app directory
+  ansible.builtin.file:
+    path: "{{ app_loc }}"
+    state: directory
+
+- name: download backend code and extract
+  ansible.builtin.unarchive:
+    src: http://artifactory.aligntune.online:8081/{{ component }}/{{ component }}-{{ lookup('amazon.aws.aws_ssm', '{{env}}.{{component}}.app_version', region='us-east-1' ) }}.zip
+    dest: "{ { app_loc } }"
+    remote_src: yes"
