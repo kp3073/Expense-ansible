@@ -1,62 +1,67 @@
-        - name: varify NodeJS
-          ansible.builtin.shell: type npm
-          register: npm
-          ignore_errors: true
+- name: varify NodeJS
+  ansible.builtin.shell: type npm
+  register: npm
+  ignore_errors: true
 
-        - name: nodejs:1
-          ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
-          when: npm.rc != 0
+- name: nodejs:1
+  ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+  when: npm.rc != 0
 
-        - name: install Nodjs
-          ansible.builtin.dnf:
-            name: nodejs
-          when: npm.rc != 0
+- name: install Nodjs
+  ansible.builtin.dnf:
+    name: nodejs
+  when: npm.rc != 0
 
-        - name: Copy Backend service file
-          ansible.builtin.template:
-            src: backend.service
-            dest: /etc/systemd/system/backend.service
+- name: Copy Backend service file
+  ansible.builtin.template:
+    src: backend.service
+    dest: /etc/systemd/system/backend.service
 
-        - name: Add application User
-          ansible.builtin.user:
-            name: expense
+- name: Add application User
+  ansible.builtin.user:
+    name: expense
 
-        - name: Cleanup old Content
-          ansible.builtin.file:
-            path: /app
-            state: absent
+- name: include app_prereq
+  anible.builtin.import_role:
+    name: common
+    tasks_from: app_prereq
 
-        - name: create app directory
-          ansible.builtin.file:
-            path: /app
-            state: directory
+- name: Cleanup old Content
+  ansible.builtin.file:
+    path: /app
+    state: absent
 
-        - name: Download and extract backend file
-          ansible.builtin.unarchive:
-            src: https://expense-artifacts.s3.amazonaws.com/backend.zip
-            dest: /app
-            remote_src: yes
+- name: create app directory
+  ansible.builtin.file:
+    path: /app
+    state: directory
 
-        - name: Install New Relic NodeJS Library
-          ansible.builtin.shell: npm install
-          args:
-            chdir: /app
+- name: Download and extract backend file
+  ansible.builtin.unarchive:
+    src: https://expense-artifacts.s3.amazonaws.com/backend.zip
+    dest: /app
+    remote_src: yes
 
-        - name: install mysql
-          ansible.builtin.dnf:
-            name: mysql
+#- name: Install New Relic NodeJS Library
+#  ansible.builtin.shell: npm install
+#  args:
+#    chdir: /app
 
-        - name: Load schema
-          ansible.builtin.shell: mysql -h {{ lookup('amazon.aws.aws_ssm', '{{env}}.rds.endpoint', region='us-east-1' ) }} -u{{ lookup('amazon.aws.aws_ssm', '{{env}}.rds.master_username', region='us-east-1' ) }} -p{{ lookup('amazon.aws.aws_ssm', '{{env}}.rds.master_password', region='us-east-1' ) }} < /app/schema/backend.sql
+- name: install mysql
+  ansible.builtin.dnf:
+    name: mysql
+
+- name: Load schema
+  ansible.builtin.shell: mysql -h {{ lookup('amazon.aws.aws_ssm', '{{env}}.rds.endpoint', region='us-east-1' ) }} -u{{ lookup('amazon.aws.aws_ssm', '{{env}}.rds.master_username', region='us-east-1' ) }} -p{{ lookup('amazon.aws.aws_ssm', '{{env}}.rds.master_password', region='us-east-1' ) }} < /app/schema/backend.sql
 
 
-        - name: start backend service
-          ansible.builtin.systemd:
-            name: backend
-            state: restarted
-            enabled: true
-            daemon-reload: yes
-        - name: Install Node Exporter
-          ansible.builtin.import_role:
-            name: prometheus
-            tasks_from: node-exporter
+- name: start backend service
+  ansible.builtin.systemd:
+    name: backend
+    state: restarted
+    enabled: true
+    daemon-reload: yes
+- name: Install Node Exporter
+  ansible.builtin.import_role:
+    name: prometheus
+    tasks_from: node-exporter
