@@ -13,10 +13,10 @@
     src: nginx.conf
     dest: /etc/nginx/nginx.conf
 
-- name: Include App Pre-requisites
-  ansible.builtin.import_role:
-    name: common
-    tasks_from: app_prereq
+#- name: Include App Pre-requisites
+#  ansible.builtin.import_role:
+#    name: common
+#    tasks_from: app_prereq
 
 - name: Removing old nginx Content
   ansible.builtin.file:
