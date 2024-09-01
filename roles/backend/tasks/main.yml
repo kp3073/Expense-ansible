@@ -21,10 +21,10 @@
   ansible.builtin.user:
     name: expense
 
-- name: include app_prereq
-  anible.builtin.import_role:
-    name: common
-    tasks_from: app_prereq
+#- name: include app_prereq
+#  anible.builtin.import_role:
+#    name: common
+#    tasks_from: app_prereq
 
 - name: Cleanup old Content
   ansible.builtin.file:
