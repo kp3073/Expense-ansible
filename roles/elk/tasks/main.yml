@@ -1,7 +1,9 @@
 - name: logstash Setup
-  ansible.builtin.include_tasks: logstash.yml
+  ansible.builtin.include_tasks:
+    logstash.yml
 #    when: elk_component == "logstash"
 
 - name: Load Filebeat
-  ansible.builtin.include_tasks: filebeat.yml
+  ansible.builtin.include_tasks:
+    filebeat.yml
 #  when: elk_component == "filebeat"
