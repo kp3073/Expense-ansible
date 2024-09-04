@@ -1,51 +1,54 @@
-- name: installing
-  ansible.builtin.dnf:
-    name: nginx
-    state: present
+-name: sethostname
+  ansible.builtin.shell: set-hostname frontend
 
-- name: Copy config file
-  ansible.builtin.template:
-    src: expense.conf
-    dest: /etc/nginx/default.d/expense.conf
+    - name: installing
+      ansible.builtin.dnf:
+        name: nginx
+        state: present
 
-- name: Changing Nginx Log
-  ansible.builtin.template:
-    src: nginx.conf
-    dest: /etc/nginx/nginx.conf
+    - name: Copy config file
+      ansible.builtin.template:
+        src: expense.conf
+        dest: /etc/nginx/default.d/expense.conf
 
-#- name: Include App Pre-requisites
-#  ansible.builtin.import_role:
-#    name: common
-#    tasks_from: app_prereq
+    - name: Changing Nginx Log
+      ansible.builtin.template:
+        src: nginx.conf
+        dest: /etc/nginx/nginx.conf
 
-- name: Removing old nginx Content
-  ansible.builtin.file:
-    path: /usr/share/nginx/html
-    state: absent
+    #- name: Include App Pre-requisites
+    #  ansible.builtin.import_role:
+    #    name: common
+    #    tasks_from: app_prereq
 
-- name: Creating Nginx Directory
-  ansible.builtin.file:
-    path: /usr/share/nginx/html
-    state: directory
+    - name: Removing old nginx Content
+      ansible.builtin.file:
+        path: /usr/share/nginx/html
+        state: absent
 
-- name: Download and Extract the file
-  ansible.builtin.unarchive:
-    src: https://expense-artifacts.s3.amazonaws.com/frontend.zip
-    dest: /usr/share/nginx/html
-    remote_src: yes
+    - name: Creating Nginx Directory
+      ansible.builtin.file:
+        path: /usr/share/nginx/html
+        state: directory
 
-- name: Restart the Nginx service
-  ansible.builtin.systemd:
-    name: nginx
-    state: restarted
-    enabled: yes
+    - name: Download and Extract the file
+      ansible.builtin.unarchive:
+        src: https://expense-artifacts.s3.amazonaws.com/frontend.zip
+        dest: /usr/share/nginx/html
+        remote_src: yes
 
-- name: Install Filebeat
-  ansible.builtin.import_role:
-    name: elk
-    tasks_from: filebeat
+    - name: Restart the Nginx service
+      ansible.builtin.systemd:
+        name: nginx
+        state: restarted
+        enabled: yes
 
-- name: Install Node Exporter
-  ansible.builtin.import_role:
-    name: prometheus
-    tasks_from: node-exporter
+    - name: Install Filebeat
+      ansible.builtin.import_role:
+        name: elk
+        tasks_from: filebeat
+
+    - name: Install Node Exporter
+      ansible.builtin.import_role:
+        name: prometheus
+        tasks_from: node-exporter
