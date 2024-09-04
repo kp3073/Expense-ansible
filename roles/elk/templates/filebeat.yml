@@ -247,6 +247,4 @@ processors:
           # ================================= Migration ==================================
           
           # This allows to enable 6.7 migration aliases
-          #migration.6_to_7.enabled: true
-          
-          251,0-1       Bot
+        #migration.6_to_7.enabled: true
