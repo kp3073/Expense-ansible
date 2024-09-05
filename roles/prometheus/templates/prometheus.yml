@@ -22,7 +22,7 @@ scrape_configs:
   - job_name: "prometheus"
     static_configs:
       - targets: [ "localhost:9090" ]
-  - job_name: prod-frontend
+  - job_name: ec2-instance
     relabel_configs:
       - source_labels: [ __meta_ec2_instance_id ]
         target_label: instance_id
