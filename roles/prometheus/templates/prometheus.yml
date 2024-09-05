@@ -23,16 +23,16 @@ scrape_configs:
     static_configs:
       - targets: [ "localhost:9090" ]
   - job_name: ec2-instance
-    relabel_configs:
+    relabel_configs: #this setting will allow us to filter the instances meta data that we want to project in Prometheus
       - source_labels: [ __meta_ec2_instance_id ]
         target_label: instance_id
       - source_labels: [ __meta_ec2_private_ip ]
         target_label: private_ip
       - source_labels: [ __meta_ec2_tag_Name ]
         target_label: name
-    ec2_sd_configs:
+    ec2_sd_configs: #this setting will open PORT 9100 on all servers that you set the tag name to monitor - you can check metrix by "serverIP:9100"
       - region: us-east-1
         port: 9100
         filters:
-          - name: "tag:project"
+          - name: "tag:project" #this tag needs to be added to the instance in AWS
             values: [ "expense" ]
