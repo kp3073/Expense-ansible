@@ -28,7 +28,3 @@ pipeline {
 }
 
 
-
-aws ssm put-parameter --name "${ENV}.${APP_NAME}.app_version" --type "String" --value "${app_version}" --overwrite
-
-aws ec2 describe-instances --filters "Values=elk"
