@@ -5,7 +5,7 @@ pipeline {
         ansiColor('xterm')
     }
 
-    parameter{
+    parameters{
         choice(name: 'ENV', choices: ['dev', 'prod'], description: 'Pick environment')
         choice(name: 'APP_NAME', choices: ['frontend', 'backend'], description: 'Choose APPLICATION')
         string(name: 'app_version', defaultValue: '', description: 'choose version to deploy')
