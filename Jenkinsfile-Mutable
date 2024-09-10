@@ -5,7 +5,7 @@ pipeline {
         ansiColor('xterm')
     }
 
-    parameters{
+    parameter{
         choice(name: 'ENV', choices: ['dev', 'prod'], description: 'Pick environment')
         choice(name: 'APP_NAME', choices: ['frontend', 'backend'], description: 'Choose APPLICATION')
         string(name: 'app_version', defaultValue: '', description: 'choose version to deploy')
@@ -19,10 +19,8 @@ pipeline {
         stage('Deployment'){
             steps{
                 sh '''
-                aws ec2 describe-instances --filters "Name=tag:Name,Values=${ENV}-${APP_NAME}" --query 'Reservations[*].Instances[*].PrivateIpAddress --output text > host
-                ssh_username=aws ssm get-parameter --name "ssh_username" --query "Parameter.Value" --output text
-                ssh_password=aws ssm get-parameter --name "ssh_password" --query "Parameter.Value" --output text --with-decryption
-                ansible-playbook -i host main.yml -e role_name=${APP_NAME} -e env=${ENV} -e ansible_user=${ssh_username} -e ansible_password=${ssh_password}
+                aws ec2 describe-instances --filters "Name=tag:Name,Values=${ENV}-${APP_NAME}" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text > host
+                ansible-playbook -i host main.yml -e role_name=${APP_NAME} -e env=${app_version}
                 '''
             }
         }
