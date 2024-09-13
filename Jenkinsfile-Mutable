@@ -24,7 +24,7 @@ pipeline {
                 }
                 sh '''
                 aws ec2 describe-instances --filters "Name=tag:Name,Values=${ENV}-${APP_NAME}" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text > host
-                ansible-playbook -i host main.yml -e role_name=${APP_NAME} -e env=${app_version}
+                ansible-playbook -i host main.yml -e role_name=${APP_NAME} -e env=${app_version} -e ansible_user=${ssh_user} -e ansible_password=${ssh_pass}
                 '''
             }
         }
