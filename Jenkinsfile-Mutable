@@ -18,6 +18,10 @@ pipeline {
         }
         stage('Deployment'){
             steps{
+                script {
+                  env.ssh_user = sh (script: 'aws ssm get-parameter --name "ssh_username" --query "Parameter.Value" --output text', returnStdout: true).trim()
+                  env.ssh_pass = sh (script: 'aws ssm get-parameter --name "ssh_password" --query "Parameter.Value" --output text --with-decryption --output text', returnStdout: true).trim()
+                }
                 sh '''
                 aws ec2 describe-instances --filters "Name=tag:Name,Values=${ENV}-${APP_NAME}" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text > host
                 ansible-playbook -i host main.yml -e role_name=${APP_NAME} -e env=${app_version}
@@ -27,3 +31,4 @@ pipeline {
     }
 }
 
+##ssh
